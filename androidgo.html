@@ -13,3 +13,7 @@ that should work as long as you have a cross compiler for arm installed (I tried
 
 I also donloaded and built linux go with git (this worked as well, obviusly it didnt automaticly install)<br>
 
+it looks like the portage built version did not install the android part of the toolchain, but the version I built myself did.<br>
+CGO_ENABLED=1 GOOS=android GOARCH=arm GOARM=7  CC=arm-pc-linux-gnueabi-gcc go build -ldflags="-shared" -o jni/armeabi/libsprite.so .<br>
+still produces an error
+ It appears you still need the headers from ndk
