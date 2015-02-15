@@ -1,0 +1,15 @@
+<title>go on android</title>
+<body>
+Have installe go and mesagl on gnetoo through emerge<br>
+go get -d golang.org/x/mobile<br>
+go get -d golang.org/x/mobile/example/sprite<br>
+emerge droidfonts #or whatever<br>
+ln -s /usr/share/fonts /usr/share/fonts/truetype<br>
+you can now build and the sprite example as a linux binnary but it will gripe if you try to build it for android.<br>
+cd $gosource && GOOS=android GOARCH=arm GOARM=7 CC_FOR_TARGET=arm-pc-linux-gnueabi-gcc emerge dev-lang/go<br>
+builds but gripes it didnt install<br>
+that should work as long as you have a cross compiler for arm installed (I tried to fix earlier erros by installing the android NDK which apears to have been a COMPLETE WASTE OF HALF A DAY'S WORTH OF DATA TRANSFER) the CC_FOR_TARGET environment variable prevents the -marm error from your host c compiler<br>
+
+
+I also donloaded and built linux go with git (this worked as well, obviusly it didnt automaticly install)<br>
+
