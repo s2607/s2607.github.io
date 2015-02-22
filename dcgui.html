@@ -8,30 +8,30 @@ src4( skey , ssrc) {
 	var src = [ssrc.length]
 	for (var i=0 ; i<ssrc.length; i++)
 		src[i]=ssrc.charCodeAt(i)
-	//print("hello")
-
-	//s := make([]byte, 256)
 	var s = []
-
-	//out := make([]byte, len(src))
 	var out = ""
 	var i=0
 	for (i = 0; i < 256; i += 1) {
 		s[i] = i%255
 	}
-	//print(s)
 	var j = 0
 	for (i = 0; i < 255; i += 1) {
 		j = (j%255 + s[i] %255+ key[i%key.length]) % 255
 		temp = s[i]
 		s[i] = s[j]
 		s[j] = temp
-		//print(s[i])
 	}
-	//print(s)
 	j = 0
 	i = 0
-	//key initialised
+	for (x = 0; x < 15500000; x += 1) {
+		i = (i + 1) % 255
+		j = (j + s[i]) % 255
+		{
+			temp = s[i]
+			s[i] = s[j]
+			s[j] = temp
+		}
+	}
 	for (x = 0; x < src.length; x += 1) {
 		i = (i + 1) % 255
 		j = (j + s[i]) % 255
@@ -41,7 +41,6 @@ src4( skey , ssrc) {
 			s[j] = temp
 		}
 	out = out + String.fromCharCode(s[(s[i]+s[j])%255]^src[x])
-	//	out = out +" " + s[(s[i]+s[j])%255]
 	}
 	return out
 }
@@ -76,23 +75,29 @@ function gtm() {
 inbox=document.getElementById('programoutput')
 outbox=document.getElementById('tmout')
 guienc2()
-outbox.value="data:text/html,"+mks(inbox.value,"text");
+//outbox.value="data:text/html,"+mks(inbox.value,"text");
+var body = document.body
+var newAnchor = document.createElement('a')
+newAnchor.setAttribute('href',"data:text/html,"+mks(inbox.value,"text"))
+newAnchor.innerHTML = "This is your message, bookmark it or copy the URI to your favorite notes/text editor"
+body.appendChild(newAnchor)
 }
 </script>
 
 <title> Self Decrypting Message Genorator de swiley.net</title>
 <body>
-<h1>Create self decrypting messages</h1>
-(Beta)<br>
-<h2>Text</h2>
+<h1>Self Decrypting Text Message Generator </h1>
+(Beta)
 <hr>
-<input id="key" type="text" value="password"/>
+Message:<textarea name="a" id="messagetext" rows="5" cols="25"  >Input message text here</textarea><br>
+Password:<input id="key" type="text" value="password"/>(<b>DO NOT RE-USE</b>)<br>
 <input id="b" type="submit" value="generate" onClick="gtm()"/>
-<textarea name="a" id="messagetext" rows="10" cols="50">Input message text here</textarea>
-<textarea name="b" id="tmout" rows="10" cols="50">UUUUUUUUU</textarea>
-<h2>RC4 Crypto test</h2>
+<textarea name="b" hidden="true" id="programoutput" rows="10" cols="50">UUUUUUUUU</textarea>
+<h2>About</h2>
 <hr>
-<textarea name="b" id="programoutput" rows="10" cols="50">UUUUUUUUU</textarea>
-<input id="b" type="submit" onClick="guienc2()"/>
-<input id="c" type="submit" onClick="guidec()"/>
+
+<p>This tool lets you store and share secret messages without having a special app to de-crypt them. 
+Simply type in your message and a secret password. The generate button creates a data URI (a special link that contains data and doesn't point anywhere) containing your encrypted message and instructions to your browser on how to de-crypt it.
+you can bookmark that link or send it to a friend who can keep it hidden</p>
+<p> The link will render on any JavaScript capable web browser (including iPhones, androids, chrome-books, Linux machines (running Firefox or any webkit browser), Windows, OSX etc). This tool uses the RC4 algorithm (often used by Microsoft) and <b>Will not protect you from technically inclined malefactors</b> (it's intended to keep children and snoopy parents out). Note, <b>This may be illegal for Iranian and Cuban nationals to use </b> (and possibly more) because it may violate US arms export regulations. (but don't quote me on that, RC4 is fairly weak)</p>
 </body>

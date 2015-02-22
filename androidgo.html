@@ -12,11 +12,13 @@ Either Im doing something wrong or emerge doesnt like bootstraping go cross comp
 Also emerge the android ndk and android sdk updater (yes these are both nesciser, yes you can take a moment to grieve the damage done to your data transfer cap)<br>
 
 cd $gosource && GOOS=android GOARCH=arm GOARM=7 CC_FOR_TARGET=arm-pc-linux-gnueabi-gcc emerge dev-lang/go<br>
-
+export PATH=$PATH:/opt/android-ndk/
 
   /opt/android-ndk/build/tools/make-standalone-toolchain.sh --platform=android-13 --install-dir=/tmp/my-android-toolchain
 
  export CC=/tmp/my-android-toolchain/bin/arm-linux-androideabi-gcc
+  export ANDROID_HOME=/opt/android-sdk-update-manager/
+  $ANDROID_HOME/build-tools/21.1.2/aapt
 
 whats left are some attempts at getting everything to work (and having it not work)<br>
 CGO_ENABLED=1 GOOS=android GOARCH=arm GOARM=7  CC=arm-pc-linux-gnueabi-gcc go build -ldflags="-shared" -o jni/armeabi/libsprite.so .<br>
