@@ -76,7 +76,7 @@ inbox=document.getElementById('programoutput')
 outbox=document.getElementById('tmout')
 guienc2()
 //outbox.value="data:text/html,"+mks(inbox.value,"text");
-var body = document.body
+var body = document.getElementById('output')
 var newAnchor = document.createElement('a')
 newAnchor.setAttribute('href',"data:text/html,"+mks(inbox.value,"text"))
 newAnchor.innerHTML = "This is your message, bookmark it or copy the URI to your favorite notes/text editor"
@@ -93,6 +93,7 @@ Message:<textarea name="a" id="messagetext" rows="5" cols="25"  >Input message t
 Password:<input id="key" type="text" value="password"/>(<b>DO NOT RE-USE</b>)<br>
 <input id="b" type="submit" value="generate" onClick="gtm()"/>
 <textarea name="b" hidden="true" id="programoutput" rows="10" cols="50">UUUUUUUUU</textarea>
+<div id=output></div>
 <h2>About</h2>
 <hr>
 
@@ -100,4 +101,6 @@ Password:<input id="key" type="text" value="password"/>(<b>DO NOT RE-USE</b>)<br
 Simply type in your message and a secret password. The generate button creates a data URI (a special link that contains data and doesn't point anywhere) containing your encrypted message and instructions to your browser on how to de-crypt it.
 you can bookmark that link or send it to a friend who can keep it hidden</p>
 <p> The link will render on any JavaScript capable web browser (including iPhones, androids, chrome-books, Linux machines (running Firefox or any webkit browser), Windows, OSX etc). This tool uses the RC4 algorithm (often used by Microsoft) and <b>Will not protect you from technically inclined malefactors</b> (it's intended to keep children and snoopy parents out). Note, <b>This may be illegal for Iranian and Cuban nationals to use </b> (and possibly more) because it may violate US arms export regulations. (but don't quote me on that, RC4 is fairly weak)</p>
+<hr><hr><h2>Sponsors:</h2><hr>
+<iframe scrolling="no" style="border: 0; width: 728px; height: 90px;" src="//ads.bcsyndication.com/get.php?s=7400"></iframe>
 </body>
