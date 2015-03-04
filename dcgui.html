@@ -1,48 +1,89 @@
 <html>
 <script id=dc>
+var gc
+
+function cipher(key)
+{
+//	with (this) {
+		this.key = []
+		this.s = []
+		this.i=0
+		this.j=0
+		this.initrc4 = function (skey) {
+		with(this){
+				for (var i=0 ; i<skey.length; i++)
+					key.push(skey.charCodeAt(i))
+				i=0
+				for (i = 0; i < 256; i += 1) {
+					s[i] = i%255
+				}
+				j = 0
+				for (i = 0; i < 255; i += 1) {
+					j = (j%255 + s[i] %255+ key[i%key.length]) % 255
+					temp = s[i]
+					s[i] = s[j]
+					s[j] = temp
+				}
+				j = 0
+				i = 0
+				var n=1000000
+				console.log("dropping first "+n+" bytes of keystream")
+				for (var x = 0; x < n; x += 1) {
+					i = (i + 1) % 255
+					j = (j + s[i]) % 255
+					{
+						temp = s[i]
+						s[i] = s[j]
+						s[j] = temp
+					}
+				}
+				console.log(s[i])
+				return s
+				}
+		}
+		this.initrc4(key)
+
+		this.e = function (ssrc) {
+		with(this){
+			console.log(s)
+			var src = [ssrc.length]
+			for (var i=0 ; i<ssrc.length; i++)
+				src[i]=ssrc.charCodeAt(i)
+			var out = ""
+
+
+			for (x = 0; x < src.length; x += 1) {
+				i = (i + 1) % 255
+				j = (j + s[i]) % 255
+				{
+					temp = s[i]
+					s[i] = s[j]
+					s[j] = temp
+				}
+			out = out + String.fromCharCode(s[(s[i]+s[j])%255]^src[x])
+			}
+			return out
+			}
+		}
+		console.log(this.i)
+} //TODO: clean up
 function
-src4( skey , ssrc) {
-	var key = []
-	for (var i=0 ; i<skey.length; i++)
-		key.push(skey.charCodeAt(i))
-	var src = [ssrc.length]
-	for (var i=0 ; i<ssrc.length; i++)
-		src[i]=ssrc.charCodeAt(i)
-	var s = []
-	var out = ""
-	var i=0
-	for (i = 0; i < 256; i += 1) {
-		s[i] = i%255
+src4(skey,ssrc) {
+console.log(this.src4.caller)
+var a=false
+	try {
+		console.log(window.gc)
+		console.log(gc.i)
+		return window.gc.e(ssrc)
+	}catch(e) {
+		console.log("Caught exception: "+e)
+		a=true
 	}
-	var j = 0
-	for (i = 0; i < 255; i += 1) {
-		j = (j%255 + s[i] %255+ key[i%key.length]) % 255
-		temp = s[i]
-		s[i] = s[j]
-		s[j] = temp
-	}
-	j = 0
-	i = 0
-	for (x = 0; x < 13000000; x += 1) {
-		i = (i + 1) % 255
-		j = (j + s[i]) % 255
-		{
-			temp = s[i]
-			s[i] = s[j]
-			s[j] = temp
-		}
-	}
-	for (x = 0; x < src.length; x += 1) {
-		i = (i + 1) % 255
-		j = (j + s[i]) % 255
-		{
-			temp = s[i]
-			s[i] = s[j]
-			s[j] = temp
-		}
-	out = out + String.fromCharCode(s[(s[i]+s[j])%255]^src[x])
-	}
-	return out
+	if(a){
+		window.gc = new cipher(skey)
+		console.log(window.gc.i)
+		return window.gc.e(ssrc)
+	}		
 }
 
 </script>
@@ -53,24 +94,24 @@ function mks(data, type,encscripts) {
 	if (type=="text")
 	{
 		out=out+"<script>\n"
-			out=out+"var k='abc'"
+		out=out+"var k=''\n"
+		out=out+"var s=''\n"
 		out=out+document.getElementById('dc').innerHTML
 		out=out+"d=\""+data+"\";\n"
+		out=out+"i='"+window.btoa(src4(document.getElementById('key').value,document.getElementById('temi').toDataURL("image/jpg",0.1)))+"';\n" //TODO:un base64 encode this first
 		out=out+"s='"+encscripts+"';\n"
-		out=out+"  function main(){document.body.innerHTML=src4(k=prompt(\"enter the decryption key\"),window.atob(d))\n"
+		out=out+"  function main(){document.body.innerHTML=\"<a href='http://github.swiley.net/dcgui.html'>New Message</a>\\n<br>\"+ src4(k=prompt(\"enter the decryption key\"),window.atob(d))\n"
 		out=out+"var c= document.createElement('canvas');c.setAttribute('id','c');\n"
 		out=out+"document.body.appendChild(c)\n"
-		out=out+"var ii = new Image;ii.src=src4(k,window.atob(i));ii.onload=function(){\n"
+		out=out+"var ii = new Image;console.log(ii.src=src4(k,window.atob(i)));ii.onload=function(){\n"
 		out=out+"var e=document.getElementById('c');e.width=ii.width;e.height=ii.height\n"
 		out=out+"e.getContext('2d').drawImage(ii,0,0);}\n"
-		out=out+"try{"
-		out=out+"eval(src4(k,window.atob(s)))\n"
-		out=out+"exmain();}catch(e){console.log(e);}\n"
+		out=out+"//try{"
+		out=out+"//eval(ss=src4(k,window.atob(s)))\n"
+		out=out+"//exmain();}catch(e){console.log(e);}\n"
 		out=out+"}\n"
 		out=out+ "<\/script>"
-		out=out+"<script>\n"
-		out=out+"i='"+window.btoa(src4(document.getElementById('key').value,document.getElementById('temi').toDataURL("image/jpg",0.1)))+"';\n" //TODO:un base64 encode this first
-		out=out+"<\/script>"
+		//out=out+"<h1>Self Decrypting Message</h1>"
 
 	}
 	return encodeURIComponent(out)
@@ -86,22 +127,41 @@ document.getElementById('messagetext').value=	src4("abc123",window.atob(document
 
 }
 function exscripts() {
+	console.log(exscripts.caller)
 	return window.btoa(src4(document.getElementById('key').value,document.getElementById('exscript').value));
 }
 function gtm() {
-inbox=document.getElementById('programoutput')
-outbox=document.getElementById('tmout')
-guienc2()
-//outbox.value="data:text/html,"+mks(inbox.value,"text");
-var body = document.getElementById('output')
-var newAnchor = document.createElement('a')
-newAnchor.setAttribute('href',"data:text/html,"+mks(inbox.value,"text",exscripts()))
-newAnchor.innerHTML = "This is your message, bookmark it or copy the URI to your favorite notes/text editor"
-body.appendChild(newAnchor)
+document.getElementById('output').innerHTML="Generating...."
+	window.setTimeout(function(){
+		inbox=document.getElementById('programoutput')
+		outbox=document.getElementById('tmout')
+		guienc2()
+		//outbox.value="data:text/html,"+mks(inbox.value,"text");
+		var body = document.getElementById('output')
+		var newAnchor = document.createElement('a')
+		newAnchor.setAttribute('href',"data:text/html,"+mks(inbox.value,"text"))//exscripts()))
+		newAnchor.innerHTML = "This is your message, bookmark it or copy the URI to your favorite notes/text editor"
+		body.innerHTML=""
+		body.appendChild(newAnchor)
+	},100);
+window.gc=null
 }
 function tac() {
 
 	document.getElementById('ac').hidden=!document.getElementById('ac').hidden
+}
+function attatchimage(scale,c,img) {
+	//img.onload=null
+		c.width=img.width*scale
+		c.height=img.height*scale
+		c.getContext("2d").drawImage(img,0,0,img.width*scale,img.height*scale);
+		console.log(c.toDataURL("image/jpeg",0.1).length)
+		if(c.toDataURL("image/jpeg",0.1).length>32000)
+			return attatchimage(scale/2,c,img)
+		else
+
+			
+		return c.toDataURL("image/jpeg",0.1)
 }
 
 function handleFiles(files)
@@ -111,37 +171,59 @@ function handleFiles(files)
 	var img = new Image;
 	var a;
 	img.src = URL.createObjectURL(files[0]);
+	var fimg = new Image;
 	img.onload = function() {
-		c.width=img.width
-		c.height=img.height
-		ctx.drawImage(img,0,0);
-		a=c.toDataURL("image/jpeg",0.1);
-		console.log(a.length)
 		URL.revokeObjectURL(img.src)
-		img.src=a
-		img.onload = function() {
-			ctx.drawImage(img,0,0);
-		}
+			
+		a=attatchimage(0.9,c,img)
+		console.log(a.length)
+		fimg.src=a
+			ctx.drawImage(fimg,0,0)
 		//TODO:support not recompresing the image
 
 	}
 }
 </script>
-
 <title> Self Decrypting Message Genorator de swiley.net</title>
-<body>
-<h1>Self Decrypting Text Message Generator </h1>
+<body >
+<div style="overflow: hidden">	
+<img style="float: right; hight: 50%" src="icon.jpg"></img>
+<h1>Self Decrypting Message Generator </h1>
 (Beta)
+</div>
 <hr>
-Message:<textarea name="a" id="messagetext" rows="5" cols="25"  >Input message text here</textarea><br>
-Password:<input id="key" type="text" value="password"/>(<b>DO NOT RE-USE</b>)<br>
-<input id="b" type="submit" value="generate" onClick="gtm()"/>
-<input id="e" type="submit" value="toggle advanced options" onClick="tac()"/>
+<div style="background-image:url(bg.jpg);	">
+<div id="app" style="background-color:#fee;
+	max-width: 52em;
+	
+	margin: auto;
+	  //border: 3px solid ThreeDShadow;
+	  border: 3px outset;
+  border-radius: 40px;
+  padding: 3em;
+  overflow: hidden;
+	">
+	<div style="overflow: hidden">
+	<div style="background-color:#9af;float: right">
+		Add Image
+		<hr>
+	<canvas id='temi'></canvas><br>
+	<input type="file" id="input" onchange="handleFiles(this.files)">
+</div>
+<div >
+	<textarea name="a" id="messagetext" rows="5" cols="25"  >Input message text here</textarea><br>
+<input id="key" type="text" placeholder="password (DO NOT RE-USE)"/>
+<input id="b" type="submit" style="right: 300" value="generate" onClick="gtm()"/>
+</div>
 <textarea name="b" hidden="true" id="programoutput" rows="10" cols="50">UUUUUUUUU</textarea>
+</div>
+<br>
+The data URI of your self decrypting message will appear here:
+<div id=output> It can be bookmarked or copied to anything you'd like to share it with</div>
+<br>
+<input id="e" type="submit" value="toggle advanced options" onClick="tac()" style="background-color:#eef;"/>
 <div hidden="true" id=ac style="background-color:#eef">Advanced controls:<br>
 
-	<canvas id='temi'></canvas><br>
-	Add Image:<input type="file" id="input" onchange="handleFiles(this.files)"><br>
 
 <input id="u" type="submit" value="Add Script" onClick="document.getElementById('exscript').hidden=!document.getElementById('exscript').hidden"/>
 	<textarea name="s" id="exscript" rows="5" cols="25" hidden="true" >
@@ -160,27 +242,30 @@ function exmain(){
 		catch(e) {
 		document.body.innerHTML=""
 		console.log(e)
-		death()
+		window.url=""
 		}
 	}
 }
 	</textarea><br>
 
 </div>
-<div id=output></div>
-<h2 style="color:#00f" onclick="document.getElementById('about').hidden=!document.getElementById('about').hidden">About</h2>
+<h2 style="color:#00f;float: right" onclick="document.getElementById('about').hidden=!document.getElementById('about').hidden">About</h2>
+<br>
 <div hidden=true  id=about>
 <hr>
 
 <p>This tool lets you store and share secret messages without having a special app to de-crypt them. 
 Simply type in your message and a secret password. The generate button creates a data URI (a special link that contains data and doesn't point anywhere) containing your encrypted message and instructions to your browser on how to de-crypt it.
 you can bookmark that link or send it to a friend who can keep it hidden</p>
-<p> The link will render on any JavaScript capable web browser* (including iPhones, androids, chrome-books, Linux machines (running Firefox or any webkit browser), Windows, OSX etc). This tool uses the RC4 algorithm (often used by Microsoft) and <b>Will not protect you from technically inclined malefactors</b> (it's intended to keep children and snoopy parents out). Note, <b>This may be illegal for Iranian and Cuban nationals to use </b> (and possibly more) because it may violate US arms export regulations. (but don't quote me on that, RC4 is fairly weak)</p>
+<p> The link will render on any JavaScript and DOM capable web browser* (including iPhones, androids, chrome-books, Linux machines (running Firefox or any webkit browser), Windows, OSX etc). This tool uses the RC4 algorithm (often used by Microsoft) and <b>Will not protect you from technically inclined malefactors</b> (it's intended to keep children and snoopy parents out). Note, <b>This may be illegal for Iranian and Cuban nationals to use </b> (and possibly more) because it may violate US arms export regulations. (but don't quote me on that, RC4 is fairly weak)</p>
+<p>If you're interested in how it works, check out it's <a href="http://github.com/s2607/sdp">repo on Github</a> or just use the "view source" command in your browser</p>
 *(except internet explorer (as usual), elinks probably wont work quite right either and almost certianly wont display images (also as usual))
 </div>
-<h2>Sponsor:</h2><hr>
+</div>
+<center>
 <iframe scrolling="no" style="border: 0; width: 728px; height: 90px;" src="//coinurl.com/get.php?id=34119"></iframe>
-<br>
+</center>
 <hr>
+</div>
 Copyright 2015 Stephen Wiley
 </body>
