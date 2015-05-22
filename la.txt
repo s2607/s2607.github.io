@@ -1,0 +1,54 @@
+#elementary row operations
+1: multiply all elements in a row by a constant
+2: interchange two rows
+3: add a constant times one row to another
+
+#row-echlon form
+1: the first non-zero element in any row is 1
+    this is called the "leading 1"
+2: all zero rows are grouped at the bottom
+3: leading 1s must never share columns or be farther to the left in lower rows then in higher rows
+##reduced row-echlon form
+4: columns containing leading 1s have zeros on all other rows
+
+#reduction steps to convert to row-echlon form
+The fist phase is always necisary and is suficient for row-echlon form, the backward phase is only necisary if you need reduced row-chlon form.
+##forward phase
+1: the leftmost column with nonzero elements is bow called the work column 
+2: the top row has a zero in the work column interchange it with another row
+3: multiply the top row by 1/(value in its work column)
+    this makes that number a leading 1
+4: for all rows with nonzero values in the work colum
+    c= their work column value timez -1
+    add c*top row to current row
+    next work-nonzero row
+5: pretend the top row doesnt exist, if there are still rows left repeat starting at step1
+    else: stop pretending
+##backward phase
+6: for all rows a starting with the bottom most
+    the column containing row a's leading 1 is now called the work column
+    for all rows b that have nonzero elements in the work column
+        c=-[b,workcolumn]
+        add c*a to b ([b,workcolumn] now equals zero)
+        next b
+    next a
+done
+1-5 is gaussian eliminatoin
+jordan gaussian elimination includes step 6
+columns of all zeros are not altered by the change to row eclon form
+
+#homogeneus
+all elements of last column are 0
+these systens have "trivial solutions" where all variables equal 0
+they may also have infinite solutions, but may not have no solutions and must have a solution where every variable is zero
+
+if a homogenous matrix has n+1 columns (the number of unknowns in the system of equations) and r nonzero rows:
+    the system will have n-r free variables
+note: a homogenios system with more unkowns then equations has infinitely many solutions
+
+#back substitution
+fast replacement for reduction step6 (returns solution, not reduced matrix)
+
+
+    solve for the variables of each row
+    sstart with the bottom row 
