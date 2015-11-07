@@ -1,0 +1,119 @@
+<html>
+<head>
+<title>Lunar</title>
+<script type="application/javascript">
+	var x=20,y=20,r=180;
+	var sx=0,sy=0,sr=0;
+	var l;
+	var h=0.01;
+function
+sin(t)
+{
+	return Math.sin(t/180*Math.PI);
+}
+function
+cos(t)
+{
+	return Math.cos(t/180*Math.PI);
+}
+function
+atan(m)
+{
+	return Math.atan(m)*180/Math.PI;
+}
+function
+nderiv(f,x,h)
+{
+	x=x+h;
+	var y=eval(f);
+	x=x-(h*2);
+	return (y-eval(f))/(2*h);	
+}
+function
+drawcraft(x,y,r,ctx)
+{
+	var s=3;
+	ctx.strokeStyle = "rgb(0,255,255)";
+	ctx.linewidth=1;
+	ctx.beginPath();
+	ctx.moveTo(x+(sin(r)*2*s),y+(cos(r)*2*s));
+	ctx.lineTo(x+(sin(r+90+45)*2*s),y+(cos(r+90+45)*2*s));
+	ctx.lineTo(x+(sin(r+90+45+90)*2*s),y+(cos(r+90+45+90)*2*s));
+	ctx.lineTo(x+(sin(r)*2*s),y+(cos(r)*2*s));
+	ctx.stroke();
+}
+function
+sim()
+{
+	//console.log(y+" "+eval(l));
+	if(y>eval(l.value)+100){
+		console.log("colission tangent slope:"+ nderiv(l.value,x,h));
+		sy=(sy+sx)*-1*cos(atan(nderiv(l.value,x,h)));
+		sx=(sy+sx)*-1*sin(atan(nderiv(l.value,x,h)));
+		y=eval(l.value)+100;
+	}
+	y=y+sy;
+	x=x+sx;
+	r=r+sr;
+	sy=sy+0.01;
+}
+function
+drawlevel(l,ctx)
+{
+	var x=0;
+	ctx.moveTo(0,0);
+	ctx.strokeStyle =  "rgb(0,255,0)";
+	ctx.fillStyle =  "rgb(0,0,255)";
+	ctx.lineWidth=1;
+	ctx.beginPath();
+	ctx.moveTo(0,0);
+	for(x=0;x<ctx.canvas.width;x++){
+		ctx.lineTo(x,eval(l)+100);
+	}
+	ctx.stroke();
+}
+function 
+draw() 
+{
+	var canvas = document.getElementById("s");
+	if (canvas.getContext) {
+  		var ctx = canvas.getContext("2d");
+		ctx.fillStyle =  "rgb(0,0,0)";
+		ctx.fillRect(0,0,ctx.canvas.width ,ctx.canvas.height);
+		// clear canvas
+		drawlevel(document.getElementById("l").value,ctx);
+		drawcraft(x,y,r,ctx);
+		sim();
+	}
+}
+function 
+init()
+{
+	var canvas = document.getElementById("s");
+	setInterval(draw, 50);
+	document.getElementById("l").value="sin(x*8.7)*10+sin(x*5.5)*10"
+	l=document.getElementById("l");
+}
+function 
+k(e) {
+	var tb = document.getElementById("i");
+	tb.value="";
+	var f=0.1;
+	switch(String.fromCharCode(e.charCode)){
+		case 'k':
+			sy=sy+f*cos(r);sx=sx+f*sin(r); break;
+		case 'h':
+			sr=sr+0.1; break;
+		case 'l':
+			sr=sr-0.1; break;
+	}
+	return false;
+}
+</script>
+</head>
+<body onload="init();">
+<canvas id="s"></canvas>
+<form>
+<input id="i" type="text" onkeypress="return k(event)" /> ---- click here for keyboard focus<br>
+Y=<input id="l" type="text" /> <br>
+</body>
