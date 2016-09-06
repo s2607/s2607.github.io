@@ -1,0 +1,39 @@
+<html>
+<div id=sheep>
+</div>
+<script>
+//Inspired by Julia, one of my most favorite people
+ var cdiv='<span id="clock"></span>';
+ var sheepdiv="";
+ var sheep="\uD83D\uDC11";
+ var y=0;
+ var x=0;
+ for(y=0;y<10;y++) {
+	 sheepdiv=sheepdiv+"<br>";
+	 for(x=0;x<10;x++){
+		 sheepdiv=sheepdiv+sheep;
+		 if(y==5&&x==3){
+			 x=x+2;
+			 sheepdiv=sheepdiv+cdiv;
+		 }
+	 }
+ }
+
+ var t = document.getElementById("sheep");
+ t.innerHTML=sheepdiv;
+ function utime()
+ {
+	 var d = new Date();
+	 var n = d.getHours();
+	 if(d.getSeconds()%2)
+		 n=n+ ":"
+	 else
+		 n=n+" ";
+	 n=n + d.getMinutes();
+	 t = document.getElementById("clock");
+	 t.innerHTML=n;
+	 timeoutID = window.setTimeout(utime, 1000);
+ }
+ utime();
+</script>
+</html>
