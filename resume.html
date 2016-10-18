@@ -1,6 +1,21 @@
 <html>
 <head>
 <title>Stephen Wiley: Computer Programmer</title>
+<style>
+#col {
+-moz-column-count: 2;
+-webkit-column-count: 2;
+column-count: 2;
+}
+li{
+/*fix column breaks*/
+margin: 0;
+-webkit-column-break-inside: avoid; /* Chrome, Safari */
+page-break-inside: avoid;           /* Theoretically FF 20+ */
+break-inside: avoid-column;         /* IE 11 */
+/*display:table;*/                      /* Actually FF 20+ */
+}
+</style>
 </head>
 <body >
 <br>
@@ -9,10 +24,12 @@ Stephen Wiley<br>
 <a href="mailto:swwiley@gmail.com">swwiley@gmail.com</a><br>
 <center><h1>Stephen Wiley, Computer Programmer</h1></center>
 <hr>
-<BS><center>My objective is to secure a position in which I can contribute as part of a 
-team of professional Computer Programmers working on challenging software projects.</center></BS>
+<center>
+<BS>My objective is to secure a position in which I can contribute as part of a 
+team of professional Computer Programmers working on challenging software projects.</BS>
 <h3>Technical Skills</h3>
-<h4>Software Development</h4>
+<h4>Software Development</h4></center>
+<div id="col">
 <li> Test driven Development and test case writing
 <li> Modeling and Simulation
 <li> C (Unix gcc/clang/tcc, ken/8c on plan9, avr-gcc, MplabC)
@@ -26,67 +43,100 @@ team of professional Computer Programmers working on challenging software projec
 <li> FORTH
 <li> GLSL
 <li> Micro controllers (pic16, pic18, at-mega, atxmega, NXP/Freescale arm devices)
-<h4>Administration of Unix-like environments</h4>
+</div>
+<center>
+	<h4>Administration of Unix-like environments</h4></center>
+<div id="col">
 <li> Linux, Mac OS, OpenBSD, and Plan9, and some familiarity with QNX
 <li> Common Unix shell tools (bash, sed, grep, find, busybox etc.)
 <li> Unix networking tools (pf, tcpdump, inetd, nc)
 <li> All packages on my personal machine are built from source (including Firefox and Libre-Office)
+</div>
 <center><h2>Education</h2></center>
+<div id="col">
 <li> Graduated high school in 2011
 <li> On and off online studying at Thomas Edison state college 2011-2013
 <li> Part time student at JSRCC from 2014-2015
 <li> Student at Liberty University 2015-present
 <li> Firm believer in self education
+</div>
 
 <center><h2>Details</h2></center>
 <hr>
+<center>
 <h3>Previous work experience</h3>	
 
 <h4> Undergraduate engineering intern for Tridium (a Honeywell subsidiary) </h4>
+</center>
+</center>
+<div id="col">
 <li> International regulatory compliance testing software for the WiFi module on an embedded board
 <li> Helped port Linux and produce a build process for special internal software for in house designed board
 <li> examination and debugging of SDIO WiFi driver on Linux
-<li> Ported uj JVM to Freescale eval board to test possibility of use of java framework on memory constrained devices (Oracle's official JVM did not execute the class/mdlet files in place in flash)
+<li> Ported uj JVM to Freescale eval board to test possibility of use of java framework on memory constrained devices (Oracle's official JVM did not execute the class/mdlet files in place in flash at this point in time)
 <li> Modifications to memory allocation system in uj JVM
 <li> Porting pdksh shell scripts from QNX to mksh on Linux
 <li> Adding and modifying packages in buildroot
-<li> Adding and modifying non-trivial device tree devices and working with TI-AM35xx pin-mux
+<li> Adding and modifying device tree devices and working with TI-AM35xx pin-mux
 
+</div>
+<center>
 <h4> Consulting (February 2014- Present)</h4>
 <h5> Pseudo Anonymous Freelancer.com and fiverr.com users </h5>
+</center>
+<div id="col">
 <li> Math (mostly help with calculus and algebra homework)
 <li> Open CV
 <li> Python
 <li> C++
 <li> win32 C and Openssl Home directory cryptography tools
 <li> Windows User space distributed delay tolerant file system written in C#
+<center>
 <h5> Apitronics LLC </h5>
+</center>
 <li> Low level C
 <li> Atxmega software development
 <li> USB-CDC device side endpoints
 <li> avr-109 Boot loader modification
 <li> AtXmega avr assembly
+
+<center>
 <h5> Point Watch LLC</h5>
+</center>
 <li> Embedded Linux and Linux hardware interfaces in C
 <li> Atmel ATSAM91 ARM SOC
+<center>
 <h5> Global Services Inc </h5>
+</center>
 <li> win32 C DAQ controller application
+</div>
 
+<center>
 <h4>Undergraduate technical intern for Phaethon Process Studios(July 2013 - November 2013)</h4>
+</center>
+<div id="col">
 <li> C# .net
 <li> Symantec Workflow
 <li> Virtualisng Windows and remote Windows administration
 <li> AWS API integration
 <li> User Interface Design
+</div>
 
+<center>
 <h4>Undergraduate technical intern for Verisign( June 2012 - December 2012)</h4> 
+</center>
+<div id="col">
 <li> Debugged and fixed build system and features for C++ graphical remote desktop software.
 <li> shell scripts to examine and manage differences in inventory lists.
 <li> Modified Free-BSD FORTH boot loader scripts to allow booting an alternate 
 kernel.
 <li> Inter department coordination of VM owners.
+</div>
 
+<center>
 <h4>Embedded systems developer for G5/AKA laser-tag (August 2011 - March 2012)</h4> 
+</center>
+<div id="col">
 <li> Pic18f based embedded systems (some in Assembly and some entirely in C)
 <li> Reverse engineering firmware on previously owned laser tag equipment
 <li> Building wide area 900MHz radio network
@@ -94,10 +144,14 @@ kernel.
 <li> integration between Linux servers and embedded devices in the field
 <li> Co-Administrated and debugged MySQL database instance
 <li> Supported and maintained customer facing systems
-
+</div>
+<center>
 <h3>Software Development Experience</h3>
 
 <h4>C programming projects</h4>
+</center>
+
+<div id="col">
 <li> Embedded pic18 powered laser tag objective devices that communicated with a remote "arena control machine". 
 <li> HP style stack based virtual machine.
 <li> "falling sand game" for Nintendo Wii, simulates a small 2d world using a large array of finite state automata.
@@ -111,7 +165,11 @@ kernel.
 <li> Simulation and testing framework for LU VEX robotics team
 <li> Various small modifications to the Linux kernel needed to debug changes to device tree
 <li> Port of uj JVM to Freescale kinetis based EVB and additions to the API/VM for debugging and memory usage profiling (the VM has it's own heap implementation that completely lacked a number of needed features)
+</div>
+<center>
 <h4>Other (bash, RPN etc)</h4>
+</center>
+<div id="col">
 <li> Traffic counter in awk and bash, preventing large charges from our ISP.
 <li> 6507 Atari VCS display kernels.
 <li> A Tool for typesetting laser tag scores in bash sed and troff.
@@ -121,8 +179,12 @@ kernel.
 <li> Self decrypting message generator in JavaScript
 <li> Finger and HTTP (not bell lab's HTTP) servers for plan9.
 <li> Port of embedded device configuration utility (implemented as ~20 reasonably long ksh scripts) from QNX to Linux
+</div>
+<center>
 <h2>Extracurricular Experiences and Hobbies</h2>
+</center>
 <hr>
+<div id="col">
 <li> Long walks, light urban exploration
 <li> Built and ran distributed Plan 9 system and mail server
 <li> Electronics and animatronics
@@ -134,6 +196,7 @@ kernel.
 <li> Assistant FLL coach (2009-2010)
 <li> Assistant game coach for AWANA (2007-2008)
 <br>
+</div>
 <div id="ss">
 <canvas id="s" hidden=true ></canvas>
 </div>
